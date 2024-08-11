@@ -3,6 +3,9 @@ languageCode = 'ko-kr'
 title = 'choieastsea.github.io'
 theme = 'typo'
 
+# robots.txt
+enableRobotsTXT = true
+
 [taxonomies]
 tag = 'tags'
 
@@ -37,12 +40,12 @@ breadcrumbs = true
 # Social icons
 [[params.social]]
 name = "linkedin"
-url = "https://www.linkedin.com/in/user/"
+url = "https://www.linkedin.com/in/동해-최-a0108526a/"
 
 
 [[params.social]]
 name = "github"
-url = "https://github.com/user"
+url = "https://github.com/choieastsea"
 
 # Main menu pages
 [[params.menu]]
