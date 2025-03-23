@@ -6,7 +6,7 @@ summary: "DB API (PEP 249) / 주요 구현체 (Drivers) "
 readTime: true
 autonumber: false
 showTags: true
-tags: []
+tags: [python, dbapi, sqlite3, pymysql, mysqlcient]
 ---
 
 지난번에는 HTTP 통신으로 파이썬 app을 실행하기 위한 인터페이스인 wsgi(`web server gateway interface`)에 대해 알아보았고, 오늘은 DBMS를 python app으로 다루기 위한 표준 인터페이스인 Python DB API에 대해 알아보자.
