@@ -1,5 +1,5 @@
 ---
-title: "(python) poetry 입문과 사용법 (1)"
+title: "poetry 입문과 사용법 (1)"
 date: "2024-08-12"
 summary: "종속성 관리의 필요성 / poetry의 등장 / 주요 명령어 정리 / lock 파일"
 toc: true

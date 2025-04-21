@@ -1,5 +1,5 @@
 ---
-title: (web) SPA에 대하여 (장단점, routing, 개선방법)
+title: SPA에 대하여 (장단점, routing, 개선방법)
 date: "2024-09-01"
 toc: true
 summary: "SPA란 / SPA의 단점을 개선하는 방법 / 정리"

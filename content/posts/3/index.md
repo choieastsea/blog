@@ -1,5 +1,5 @@
 ---
-title: "(python) poetry 입문과 사용법 (2)"
+title: "poetry 입문과 사용법 (2)"
 date: "2024-08-13"
 summary: "pyenv와 조합 /poetry 기반 프로젝트 개발하기 / dependency-group"
 toc: true

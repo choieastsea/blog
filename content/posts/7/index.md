@@ -1,5 +1,5 @@
 ---
-title: (setting) 맥북 초기 설정 기록하기 (homebrew, zsh, powerlevel10k, python)
+title: 맥북 초기 설정 기록하기 (homebrew, zsh, powerlevel10k, python)
 date: "2024-09-19"
 toc: true
 summary: "homebrew / 터미널 관련 / 간단한 개발환경 세팅 /기타 맥북 설정"

@@ -1,5 +1,5 @@
 ---
-title: "(python) wsgi 웹 서버 직접 만들어보기"
+title: "python wsgi 웹 서버 만들어보기"
 date: "2024-08-25"
 summary: "CGI를 pythonic하게 해석한 wsgi 인터페이스를 알아보고 wsgi 기반의 웹 어플리케이션과 서버를 구현해보자."
 toc: true

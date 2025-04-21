@@ -1,5 +1,5 @@
 ---
-title: (python) DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)
+title: python DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)
 date: "2024-12-10"
 toc: true
 summary: "DB API (PEP 249) / 주요 구현체 (Drivers) "

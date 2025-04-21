@@ -1,5 +1,5 @@
 ---
-title: "(blog) hugo와 git submodule을 이용한 깃허브 블로그 구축기"
+title: "hugo와 git submodule을 이용한 깃허브 블로그 구축기"
 date: "2024-08-11"
 summary: "hugo? / github pages / 블로그 초기화 과정"
 toc: true

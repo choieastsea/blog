@@ -1,5 +1,5 @@
 ---
-title: (python) SQLAlchemy 알아보기 (1) Dialect & Pool (connection pooling)
+title: SQLAlchemy (1) Dialect & Pool (connection pooling)
 date: "2025-03-18"
 toc: true
 summary: "overview / core / dialect / connection pooling"

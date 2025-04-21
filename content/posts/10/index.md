@@ -1,5 +1,5 @@
 ---
-title: (python) SQLAlchemy 알아보기 (2) Engine
+title: SQLAlchemy (2) Engine
 date: "2025-04-03"
 toc: true
 summary: "engine / 생성(create_engine) / 주요 파라미터 / connect() / begin() / dispose()"
@@ -65,7 +65,14 @@ connect()를 호출해야만 DB connection이 생성되어 리턴됨을 확인�
 
 물론 `engine.connect()`를 여러번 수행한다고 해서 항상 connection이 생성되는 것은 아니고, *connection pool 정책에 의해 생성될 것*이다.
 
+### engine.pool.status()
 
+engine은 connection pool을 관리하는 pool 객체에 접근할 수 있고, **status 메서드를 통해 현재 커넥션 풀의 상태를 확인**할 수 있다.
+
+```python
+> engine.pool.status()
+> Pool size: 5  Connections in pool: 0 Current Overflow: -5 Current Checked out connections: 0
+```
 
 이제 create_engine의 주요 파라미터에 대해 알아보자.
 
@@ -161,7 +168,7 @@ engine.dispose()
 
 SQLAlchemy engine은 커넥션 풀과 dialect를 다루기 위한 모듈이다. 따라서 보통 engine은 **application 내에 DB 당 하나만 존재**하는 것이 일반적이다. connection pooling을 담당하고(1), connection 객체를 통해 트랜잭션을 열고 쿼리를 실행(2)할 수 있지만, (2)에 대한 부분은 *ORM을 지원하는 Session 객체를 통해 다루는 것이 일반적*이다.
 
-이번 글까지 sqlalchemy의 core module에 대해 알아보았다. 다음에는 SQLAlchemy에서 자주 접하게 될, 어찌보면 진짜 본체인 `Connection`과 `Session` 객체에 대해 알아보도록 하겠다. 
+이번 글까지 sqlalchemy의 core module에 대해 알아보았다. 다음에는 SQLAlchemy에서 자주 접하게 될, 어찌보면 진짜 본체인 `Session` 객체에 대해 알아보도록 하겠다. 
 
 
 
