@@ -54,10 +54,11 @@ session = sessionmaker()
 ## 트랜잭션 관리
 
 - `begin()` : engine과 마찬가지로, **application 내 트랜잭션이 시작됨을 명시하지만, `BEGIN/START transaction;` 쿼리는 암묵적으로 수행된다.**
-- `commit()` 
-- `rollback()`
+- `close()` : 세션을 종료하는 메서드이다. context manager를 사용했다면 나가면서 호출되고, 그렇지 않다면 명시적으로 닫아주도록 한다. 그러면 해당 트랜잭션을 깔끔하게 정리할 것이다.
+- `commit()`  : 커밋 쿼리를 수행한다.
+- `rollback()` : 롤백 쿼리를 수행한다.
 
-begin() 메서드가 `contextmanager`로도 활용될 수 있어서 다음과 같은 방법이 존재한다. [출처](https://docs.sqlalchemy.org/en/20/orm/session_basics.html#framing-out-a-begin-commit-rollback-block)
+begin() 메서드 역시, `contextmanager`로도 활용될 수 있어서 다음과 같은 방법이 존재한다. [출처](https://docs.sqlalchemy.org/en/20/orm/session_basics.html#framing-out-a-begin-commit-rollback-block)
 
 ```python
 # 1
@@ -84,21 +85,11 @@ with Session(engine) as session, session.begin():
     session.add(some_other_object)
 ```
 
-
-
-1. context manager
-
-   https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802 에서 보면 
-
-2. begin ~ commit
-
-추가로, rollback과 commit 메서드도 존재한다.
-
-begin()시에는 트랜잭션이 열리며, close()시에 rollback()/commit()이 실행된다.
+begin()시에는 트랜잭션이 열리며, `close()`시에 rollback()/commit()이 실행된다.
 
 **begin() 역시 engine과 마찬가지로 쿼리가 나감(+connection을 가져옴)을 보장하지 않는다!** 
 
-역으로, close() 메서드도 connection이 할당되지 않았다면 굳이 쿼리가 나가지 않을 것이다.
+역으로, `close()` 메서드도 connection이 할당되지 않았다면 굳이 쿼리가 나가지 않을 것이다.
 
 ```python
 ❯ python -i test.py
@@ -181,9 +172,9 @@ class Item(Base):
   True
   ```
 
-  실행되는 query는 session의 상태에 따라 flush 시점에 결정되어 수행된다.
+  실행되는 query는 session의 상태에 따라 flush 시점에 결정되어 수행된다. session 초기화 시점이 아닌 **실제 connection이 필요한 시기에 lazy 하게 가져옴**을 확인할 수 있다.
 
-  또한 session 초기화 시점이 아닌 **실제 connection이 필요한 시기에 lazy 하게 가져옴**을 확인할 수 있다.
+  Session은 identity map 이라는 곳에 데이터를 저장(in memory)해놓고 `flush()` 시점에 변경 작업들을 한번에 반영하는데, 이러한 측면에서  `unit of work` 패턴을 나타낸다.
 
 - `refresh(obj)`
 
