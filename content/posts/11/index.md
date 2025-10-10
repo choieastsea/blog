@@ -11,7 +11,7 @@ tags: [python, sqlalchemy, orm, session]
 
 
 
-지금까지 sqlalchemy의 core layer에 대해 공부했고, 이제는 orm layer에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.
+지금까지 sqlalchemy의 `core layer`에 대해 공부했고, 이제는 `orm layer`에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.
 
 # Session
 
@@ -49,7 +49,7 @@ session = sessionmaker()
 'Pool size: 5  Connections in pool: 0 Current Overflow: -5 Current Checked out connections: 0'
 ```
 
-**session이 생겼다고 해서 connection을 가져오지(`engine.connect()`) 않은 것**을 확인할 수 있다. *실제 DB 실행시에 connection 객체를 가져올 것*이다.
+**session이 생겼다고 해서 connection을 가져오지(`engine.connect()`) 않은 것**을 확인할 수 있다. *실제 DB 실행시에 connection 객체를 lazy하게 가져온다.*
 
 ## 트랜잭션 관리
 
@@ -221,9 +221,9 @@ ORM 객체들은 세션에 의해 DBMS로 영속화될 수 있는데, 이를 관
 
 이제, engine, connection, session에 대해 알아봤는데, 차이점을 정리해보자.
 
-engine은 connection들을 관리하기 위한 **connection pool과 DBMS 마다 쿼리를 실행하기 위한 Dialect를 포함한 객체**이다.
+engine은 **connection들을 관리하기 위한 connection pool과 DBMS 마다 쿼리를 실행하기 위한 Dialect를 포함한 객체**이다.
 
-connection은 [DB API의 connection](https://peps.python.org/pep-0249/#connection-objects)을 래핑한 객체이다. **DBMS와 application간의 TCP connection**를 포함한다고 볼 수 있다.
+connection은 [DB API의 connection](https://peps.python.org/pep-0249/#connection-objects)을 래핑한 객체이다. **DBMS의 TCP connection을 application간의 connection**객체로 갖고 있는다.
 
 session은 **하나의 트랜잭션을 수행하고 ORM 객체와 매핑과 영속화를 수행**하기 위한 객체이다.
 

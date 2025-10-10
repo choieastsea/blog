@@ -45,23 +45,25 @@ DBMS마다 실행을 위한 DB API(예: `pymysql`, `sqlite3`)가 다르다. SQLA
 
 connection pooling은 DB api의 스펙이 아니므로 파이썬 db driver가 제공하는 기능은 아니고, *sqlalchemy에서 제공하는 기능*이다.
 
-connection pool(연결 풀)은 application에서 쿼리 실행마다 DB와의 connection(아마 TCP connection)을 맺고 끊는데 드는 비용을 아끼기 위해 커넥션을 일정 갯수만큼 갖고 있는 기법이다. DB 실행을 위해서는 커넥션이 필요할텐데 connection pool에 우선 접근하고, (없다면 새로운 connection 할당) 연결을 종료한다면 connection pool에 반납될 것이다.
+connection pool(연결 풀)은 application에서 쿼리 실행마다 DB와의 connection(보통 TCP connection)을 맺고 끊는데 드는 비용을 아끼기 위해 커넥션을 일정 갯수만큼 갖고 있는 기법이다. DB 실행을 위해서는 커넥션이 필요할텐데 connection pool에 우선 접근하고, (없다면 새로운 connection 할당) 연결을 종료한다면 connection pool에 반납될 것이다.
 
 SQLAlchemy는 이를 pool 모듈에서 제공하며 connect 함수가 connection pooling 기법을 이용한다. 보통은 뒤에 나올 **engine 객체를 초기화할 때 파라미터를 통해 QueuePool을 컨트롤** 할 수 있고 pool 모듈을 직접 다루진 않을 것이다.
 
 ## connect()
 
-Pool 모듈에도 `conect()` 메서드가 제공되는데, 이는 [connection 객체를 리턴하는 DB API의 connect](https://peps.python.org/pep-0249/#connect)와 다르니 짚고 넘어가자.
+Pool 모듈에도 `conect()` 메서드가 제공되는데, 이는 [connection 객체를 리턴하는 DB API의 connect](https://peps.python.org/pep-0249/#connect)와는 차이가 있으니 짚고 넘어가자.
 
 1. 풀 정책 확인 후 커넥션 반환
    - 사용하지 않는 커넥션이 있다면 반환한다
 2. 반환 불가하다면 새로운 커넥션 생성
    - 새로운 커넥션 생성이 불가능한 경우 예외 발생
 3. connection 객체 리턴
-   - 사용하는 db driver의 connection 객체를 리턴 (이제ㅂ터 해당 커넥션은 사용중으로 간주)
+   - 사용하는 db driver의 connection 객체를 리턴 (이제부터 해당 커넥션은 사용중으로 간주)
 
 4. connection.close() 호출시, 풀에 커넥션 반환
-   - 해당 커넥션은 **종료되지 않고 풀에 반환**된다!!
+   - 해당 커넥션은 **종료되지 않고 풀에 반환**된다!
+
+DB API에서도 말했듯, `connection` 객체는 DBMS와 연결되어있음을 보장하지 않는다. application 수준의 connection일 뿐임을 유념하자. 
 
 이제 위에서 생성한 QueuePool로 connection pooling을 다뤄보자.
 
@@ -136,13 +138,15 @@ for conn in connections:
 
 이는 application server 입장에서의 connection이 있더라도, DBMS단에서 connection을 닫아버렸을 수도 있기 때문이다. MySQL로 예시를 들면, `wait_timeout`이라는 변수가 있는데 유휴시간이 wait_timeout 이상이라면 MySQL입장에서 커넥션을 닫아버리는 경우가 있다. [참고](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_wait_timeout)
 
-이외에도 여러가지 이유로 오랫동안 사용하지 않은 connection은 *server~client 모두가 서로 연결되었다고 확신할 수 없기 때문*에 recycle 필요하다. 위의 사례에서 보았듯,  **MySQL의 wait_timeout은 pool의 recycle보다 크도록 설정해야 할 것**이다. 그래야 만료된 connection으로 요청하지 않을 수 있다.
+이외에도 여러가지 이유로 오랫동안 사용하지 않은 connection은 *server~client 모두가 서로 연결되었다고 확신할 수 없기 때문*에 recycle이 필요하다. 위의 사례에서 보았듯,  **MySQL의 wait_timeout은 pool의 recycle보다 크도록 설정해야 할 것**이다. 그래야 만료된 connection으로 요청하지 않을 수 있다.
 
 ### pre_ping
 
 connection recycle을 하더라도 모종의 이유로 connection이 끊길 수 있다. 따라서, `connect()`시 `select 1;` 쿼리를 날려서 해당 커넥션이 유효한지 확인하고 유효하지 않다면 새로운 커넥션을 생성하는 `pre_ping` 옵션을 줄 수 있다. 가장 확실하지만 매 connection마다 추가로 쿼리를 날려야한다는 점에서 부담이 될 수 있다.
 
 그치만 DBMS 자체가 다운된 경우에는 pre ping을 날려도 소용없고 오류가 발생할 것이다.
+
+추가로, `pre_ping`은 커넥션을 풀에서부터 가져오는 시점에 호출되므로 가져온 커넥션을 갖고 `wait_timeout`보다 오래 대기하다가 쿼리를 날리면 역시 만료될 수 있다. 따라서, 커넥션 객체는 pool로부터 가져온 이후 너무 오랫동안 가지고 있으면 안되며 적절한 라이프사이클 관리가 필요하다.
 
 ### reset_on_return
 

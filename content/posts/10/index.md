@@ -33,7 +33,7 @@ dialect는 SQLAlchemy를 찾아보고, driver는 python db driver를 찾아보�
 
 ### 생성 != 커넥션 생성
 
-engine을 생성했다고 DB 커넥션이 생성되는 것은 아니다. engine은 커넥션 풀을 관리하는 클래스이지, **커넥션 그 자체는 아니다**. SQLAlchemy는 connection에 대한 클래스(`connection`)이 존재하는데, `engine.connect()`를 호출하면 커넥션 객체가 커넥션 풀에 전략에 맞게 생성된다. 
+engine을 생성했다고 DB 커넥션이 생성되는 것은 아니다. engine은 커넥션 풀을 관리하는 클래스이지, **커넥션 그 자체는 아니다**. SQLAlchemy는 connection에 대한 클래스(`connection`)이 존재하는데, `engine.connect()`를 호출하면 커넥션 객체가 커넥션 풀에 전략에 맞게 생성되거나 가져와진다. 
 
 우선, engine을 생성하는 예시를 interactive mode로 실행해보자. (echo 옵션으로 DB query에 대한 로그를 확인할 수 있다)
 
@@ -63,7 +63,7 @@ connect()를 호출해야만 DB connection이 생성되어 리턴됨을 확인�
 205	root	192.168.65.1:51309	test_db	Sleep	1		NULL
 ```
 
-물론 `engine.connect()`를 여러번 수행한다고 해서 항상 connection이 생성되는 것은 아니고, *connection pool 정책에 의해 생성될 것*이다.
+다시 한번 말하지만, `engine.connect()`를 여러번 수행한다고 해서 항상 connection이 생성되는 것은 아니고, *connection pool 정책에 의해 생성될 것*이다.
 
 ### engine.pool.status()
 
@@ -94,7 +94,7 @@ engine은 connection pool을 관리하는 pool 객체에 접근할 수 있고, *
 
 ### Pool 관련 파라미터
 
-`pool_` prefix인 설정들은 기본적으로 [저번 포스트](https://choieastsea.github.io/posts/9/)에서 다뤘던 Pool 클래스의 인자와 같다.
+engine의 `pool_` prefix인 설정들은 기본적으로 [저번 포스트](https://choieastsea.github.io/posts/9/)에서 다뤘던 Pool 클래스의 인자와 같다.
 
 - **max_overflow**: 기본 풀 크기를 초과하여 얼마나 더 커넥션을 추가할 수 있는지를 설정한다.
 - **pool**: 사용할 커넥션 풀의 유형을 지정한다. 기본값은 `QueuePool`이다.
@@ -119,7 +119,7 @@ finally:
     connection.close()
 ```
 
-sqlalchemy의 connection 객체는 DB API의 connection을 감싼 객체이다. 만약 후자의 커넥션 객체의 접근하고 싶다면 `connection.connection`으로 가능하다.
+sqlalchemy의 connection 객체는 DB API의 connection을 감싼 객체이다. 만약 후자의 커넥션 객체에 접근하고 싶다면 `connection.connection`으로 가능하다.
 
 ## Engine.begin()
 
@@ -166,7 +166,7 @@ engine.dispose()
 
 ## 정리
 
-SQLAlchemy engine은 커넥션 풀과 dialect를 다루기 위한 모듈이다. 따라서 보통 engine은 **application 내에 DB 당 하나만 존재**하는 것이 일반적이다. connection pooling을 담당하고(1), connection 객체를 통해 트랜잭션을 열고 쿼리를 실행(2)할 수 있지만, (2)에 대한 부분은 *ORM을 지원하는 Session 객체를 통해 다루는 것이 일반적*이다.
+SQLAlchemy engine은 커넥션 풀과 dialect를 다루기 위한 모듈이다. 따라서 보통 engine은 **application 내에 DB 당 하나만 존재**하는 것이 일반적이다. connection pooling을 담당하고(1), connection 객체를 통해 트랜잭션을 열고 쿼리를 실행(2)할 수도 있지만, (2)에 대한 부분은 *ORM을 지원하는 Session 객체를 통해 다루는 것이 일반적*이다.
 
 이번 글까지 sqlalchemy의 core module에 대해 알아보았다. 다음에는 SQLAlchemy에서 자주 접하게 될, 어찌보면 진짜 본체인 `Session` 객체에 대해 알아보도록 하겠다. 
 
