@@ -2,9 +2,13 @@ baseURL = 'https://choieastsea.github.io/'
 languageCode = 'ko-kr'
 title = 'choieastsea.github.io'
 theme = 'typo'
+uglyURLs = false
 
 # robots.txt
 enableRobotsTXT = true
+
+[permalinks]
+posts="/posts/:slug/"
 
 [taxonomies]
 tag = 'tags'

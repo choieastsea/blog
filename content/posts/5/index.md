@@ -9,7 +9,7 @@ showTags: true
 tags: [web server, server, cgi, wsgi, gunicorn, uwsgi]
 ---
 
-[이전 글](https://choieastsea.github.io/posts/4)에는 웹서버와 어플리케이션을 구분하고, 이를 연결해주는 인터페이스/표준에 대해 알아보았다. 오늘은 그중 파이썬 진영의 표준인 `WSGI`에 대해 알아보자.
+[이전 글]({{< relref "../4/index.md" >}})에는 웹서버와 어플리케이션을 구분하고, 이를 연결해주는 인터페이스/표준에 대해 알아보았다. 오늘은 그중 파이썬 진영의 표준인 `WSGI`에 대해 알아보자.
 
 # PEP333(3)
 

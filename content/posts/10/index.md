@@ -94,7 +94,7 @@ engine은 connection pool을 관리하는 pool 객체에 접근할 수 있고, *
 
 ### Pool 관련 파라미터
 
-engine의 `pool_` prefix인 설정들은 기본적으로 [저번 포스트](https://choieastsea.github.io/posts/9/)에서 다뤘던 Pool 클래스의 인자와 같다.
+engine의 `pool_` prefix인 설정들은 기본적으로 [저번 포스트]({{< relref "../9/index.md" >}})에서 다뤘던 Pool 클래스의 인자와 같다.
 
 - **max_overflow**: 기본 풀 크기를 초과하여 얼마나 더 커넥션을 추가할 수 있는지를 설정한다.
 - **pool**: 사용할 커넥션 풀의 유형을 지정한다. 기본값은 `QueuePool`이다.

@@ -25,7 +25,7 @@ uvicorn은 대표적인 ASGI server의 구현체이다. [github](https://github.
 ❯ cd asgi
 ❯ uv add uvicorn
 ```
-`main.py`를 다음과 같이 수정한다. 간단한 HTTP 요청을 path와 함께 받아 hello world를 출력해주는 **ASGI application**이다. application spec은 [이전 글을 참고](https://choieastsea.github.io/posts/14/)한다. 
+`main.py`를 다음과 같이 수정한다. 간단한 HTTP 요청을 path와 함께 받아 hello world를 출력해주는 **ASGI application**이다. application spec은 [이전 글을 참고]({{< relref "../14/index.md" >}})한다. 
 
 ```python
 import asyncio

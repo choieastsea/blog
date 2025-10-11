@@ -205,7 +205,7 @@ class Item(Base):
   <sqlalchemy.engine.result.ChunkedIteratorResult object at 0x105c83c50>
   ```
 
-  해당 시점에 쿼리가 수행되지만 **결과가 메모리에 적재되지는 않는다**고 한다. 따라서 `all(), first(), one(), one_or_none()` 등 메서드를 통해 이를 application memory로 가져온다. 이렇게 나눠진 이유는 execute는 **사실 Python DB API에서 쿼리를 호출하고(execute), 데이터를 메모리로 가져오는(fetch) 시점이 나뉘어져있기 때문**이다. [참고](https://choieastsea.github.io/posts/8/#cursor)
+  해당 시점에 쿼리가 수행되지만 **결과가 메모리에 적재되지는 않는다**고 한다. 따라서 `all(), first(), one(), one_or_none()` 등 메서드를 통해 이를 application memory로 가져온다. 이렇게 나눠진 이유는 execute는 **사실 Python DB API에서 쿼리를 호출하고(execute), 데이터를 메모리로 가져오는(fetch) 시점이 나뉘어져있기 때문**이다. [참고]({{< relref "../8/index.md" >}}#cursor)
 
 - `scalars/scalar(statement)`
 

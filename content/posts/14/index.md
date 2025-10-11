@@ -11,7 +11,7 @@ tags: [web server, server, python, wsgi, asgi, fastapi, starlette]
 
 이전에 WSGI application, server, 그리고 middleware에 대한 스펙을 정의한 Proposal(PEP3333)에 대해 다뤘다. 
 
-[이전 글](https://choieastsea.github.io/posts/4)을 정리하면, python을 웹 서비스로 만들기 위해서는 WSGI를 준수하는 application(ex. django, flask app)와 이를 서빙할 WSGI server(gunicorn, uwsgi)를 선택해야한다고 했다.
+[이전 글]({{< relref "../13/index.md" >}})을 정리하면, python을 웹 서비스로 만들기 위해서는 WSGI를 준수하는 application(ex. django, flask app)와 이를 서빙할 WSGI server(gunicorn, uwsgi)를 선택해야한다고 했다.
 
 이번 글에는 WSGI를 개선하여 다양한 통신 방법에 대응 가능한 스펙인 `ASGI`에 대해 알아보도록 한다. 
 

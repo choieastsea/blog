@@ -11,7 +11,7 @@ tags: [python, sqlalchemy, core]
 
 
 
-Python에서 DB를 본격적으로 다루고 싶다면 DB API만으로는 한계가 있는데, 이에 Python DB tool 중 독자적인 `SQLAlchemy`에 대해 알아보도록 하자. python DB API에 대해서는 [이전 글을 참고](https://choieastsea.github.io/posts/8/)한다.
+Python에서 DB를 본격적으로 다루고 싶다면 DB API만으로는 한계가 있는데, 이에 Python DB tool 중 독자적인 `SQLAlchemy`에 대해 알아보도록 하자. python DB API에 대해서는 [이전 글을 참고]({{< relref "../8/index.md" >}})한다.
 
 # Overview
 
