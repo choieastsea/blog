@@ -1,0 +1,62 @@
+{{ define "main" }}
+
+<div class="list-container">
+
+  {{ partial "breadcrumbs.html" . }}
+
+  <h1>{{ .Title }}</h1>
+
+  {{ with .Description }}
+  <p style="color: var(--color-contrast-medium); margin-bottom: 2rem; font-size: 0.95rem;">{{ . }}</p>
+  {{ end }}
+
+  <div class="playground-list">
+    {{ range .Pages }}
+    <a href="{{ .Permalink }}" class="playground-card">
+      <div class="playground-card-title">{{ .Title }}</div>
+      {{ with .Description }}
+      <div class="playground-card-desc">{{ . }}</div>
+      {{ end }}
+    </a>
+    {{ end }}
+  </div>
+
+</div>
+
+<style>
+  .playground-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .playground-card {
+    display: block;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-contrast-low);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .playground-card:hover {
+    border-color: var(--color-contrast-medium);
+    background: var(--color-bg-secondary, rgba(0,0,0,0.03));
+  }
+
+  .playground-card-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .playground-card-desc {
+    font-size: 0.875rem;
+    color: var(--color-contrast-medium);
+    line-height: 1.5;
+  }
+</style>
+
+{{ end }}
