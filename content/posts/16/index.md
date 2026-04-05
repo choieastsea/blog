@@ -85,28 +85,28 @@ Host는 MCP를 활용하기 위한 컴포넌트이며, mcp server와 client 컴�
 
     ```json
     {
-    jsonrpc: "2.0";
-    id: string | number;
-    method: string;
-    params?: {
-        [key: string]: unknown;
-    };
+        jsonrpc: "2.0";
+        id: string | number;
+        method: string;
+        params?: {
+            [key: string]: unknown;
+        };
     }
     ```
     response는 다음과 같이 제공되어야 한다.
 
     ```json
     {
-    jsonrpc: "2.0";
-    id: string | number;
-    result?: {
-        [key: string]: unknown;
-    }
-    error?: {
-        code: number;
-        message: string;
-        data?: unknown;
-    }
+        jsonrpc: "2.0";
+        id: string | number;
+        result?: {
+            [key: string]: unknown;
+        }
+        error?: {
+            code: number;
+            message: string;
+            data?: unknown;
+        }
     }
     ```
 
@@ -116,11 +116,11 @@ Host는 MCP를 활용하기 위한 컴포넌트이며, mcp server와 client 컴�
     다음과 같이 전달되어야 한다.
     ```json
     {
-    jsonrpc: "2.0";
-    method: string;
-    params?: {
-        [key: string]: unknown;
-    };
+        jsonrpc: "2.0";
+        method: string;
+        params?: {
+            [key: string]: unknown;
+        };
     }
     ```
 
@@ -259,12 +259,12 @@ if __name__ == "__main__":
 3. operation: `tool/calls`
     ```json
     {
-    "jsonrpc": "2.0",
-    "id": 0,
-    "method": "tools/call",
-    "params": {
-        "name" : "hello"
-    }
+        "jsonrpc": "2.0",
+        "id": 0,
+        "method": "tools/call",
+        "params": {
+            "name" : "hello"
+        }
     }
     ```
     이를 body에 포함하여 요청을 보내면 아래와 같은 응답이 온다.
