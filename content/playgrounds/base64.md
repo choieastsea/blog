@@ -4,10 +4,6 @@ description: "텍스트를 Base64로 인코딩하거나, Base64를 텍스트로 
 ---
 
 <style>
-.pg-app {
-  margin-top: 1.5rem;
-}
-
 .pg-tab-group {
   display: inline-flex;
   background: var(--code-background);
@@ -151,7 +147,99 @@ description: "텍스트를 Base64로 인코딩하거나, Base64를 텍스트로 
 }
 </style>
 
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script type="text/babel" src="/playgrounds/base64/app.js"></script>
+<div class="pg-tab-group">
+  <button class="pg-tab-btn active" id="btn-encode" onclick="setMode('encode')">Encode</button>
+  <button class="pg-tab-btn" id="btn-decode" onclick="setMode('decode')">Decode</button>
+</div>
+
+<div class="pg-section">
+  <div class="pg-label" id="input-label">원본 텍스트</div>
+  <textarea class="pg-textarea" id="pg-input" placeholder="인코딩할 텍스트를 입력하세요..." spellcheck="false" oninput="convert()"></textarea>
+</div>
+
+<div class="pg-divider" id="pg-divider">↓ 인코딩</div>
+
+<div class="pg-section">
+  <div class="pg-label" id="output-label">Base64</div>
+  <div class="pg-output-wrapper">
+    <div class="pg-output-box" id="pg-output"><span class="pg-placeholder">결과가 여기에 표시됩니다</span></div>
+    <button class="pg-copy-btn" id="pg-copy-btn" style="display:none" onclick="copyOutput()">복사</button>
+  </div>
+  <div class="pg-error-box" id="pg-error" style="display:none"></div>
+</div>
+
+<script>
+var mode = 'encode';
+
+function encodeBase64(text) {
+  var bytes = new TextEncoder().encode(text);
+  var binString = Array.from(bytes, function(b) { return String.fromCodePoint(b); }).join('');
+  return btoa(binString);
+}
+
+function decodeBase64(base64) {
+  var cleaned = base64.replace(/\s/g, '');
+  var binString = atob(cleaned);
+  var bytes = Uint8Array.from(binString, function(c) { return c.codePointAt(0); });
+  return new TextDecoder().decode(bytes);
+}
+
+function setMode(newMode) {
+  mode = newMode;
+  document.getElementById('pg-input').value = '';
+  document.getElementById('pg-output').innerHTML = '<span class="pg-placeholder">결과가 여기에 표시됩니다</span>';
+  document.getElementById('pg-error').style.display = 'none';
+  document.getElementById('pg-copy-btn').style.display = 'none';
+
+  var isEncode = mode === 'encode';
+  document.getElementById('btn-encode').classList.toggle('active', isEncode);
+  document.getElementById('btn-decode').classList.toggle('active', !isEncode);
+  document.getElementById('input-label').textContent = isEncode ? '원본 텍스트' : 'Base64';
+  document.getElementById('output-label').textContent = isEncode ? 'Base64' : '디코딩 결과';
+  document.getElementById('pg-divider').textContent = isEncode ? '↓ 인코딩' : '↓ 디코딩';
+  document.getElementById('pg-input').placeholder = isEncode
+    ? '인코딩할 텍스트를 입력하세요...'
+    : '디코딩할 Base64 문자열을 입력하세요...';
+}
+
+function convert() {
+  var input = document.getElementById('pg-input').value;
+  var outputEl = document.getElementById('pg-output');
+  var errorEl = document.getElementById('pg-error');
+  var copyBtn = document.getElementById('pg-copy-btn');
+
+  if (!input.trim()) {
+    outputEl.innerHTML = '<span class="pg-placeholder">결과가 여기에 표시됩니다</span>';
+    errorEl.style.display = 'none';
+    copyBtn.style.display = 'none';
+    return;
+  }
+
+  try {
+    var result = mode === 'encode' ? encodeBase64(input) : decodeBase64(input);
+    outputEl.textContent = result;
+    errorEl.style.display = 'none';
+    copyBtn.style.display = 'block';
+    copyBtn.textContent = '복사';
+    copyBtn.classList.remove('copied');
+  } catch (e) {
+    outputEl.innerHTML = '<span class="pg-placeholder">결과가 여기에 표시됩니다</span>';
+    errorEl.textContent = '유효하지 않은 Base64 문자열입니다. 입력값을 확인해주세요.';
+    errorEl.style.display = 'block';
+    copyBtn.style.display = 'none';
+  }
+}
+
+function copyOutput() {
+  var text = document.getElementById('pg-output').textContent;
+  var btn = document.getElementById('pg-copy-btn');
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = '복사';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>

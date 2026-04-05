@@ -7,10 +7,8 @@
   <h1>{{ .Title }}</h1>
 
   {{ with .Description }}
-  <p style="color: var(--color-contrast-medium); margin-bottom: 2rem; font-size: 0.95rem;">{{ . }}</p>
+  <p style="color: var(--content-secondary); margin-bottom: 2rem; font-size: 0.95rem;">{{ . }}</p>
   {{ end }}
-
-  <div id="playground-app"></div>
 
   {{ .Content }}
 
